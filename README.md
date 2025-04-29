@@ -7,7 +7,7 @@ crontab -e
 
 Add:
 */5 * * * * /home/lfeduca1/auto-update.sh
-0 8 * * * /usr/bin/python3 /path/to/scrape.py >> /tmp/log.txt 2>&1
+0 8 * * * cd /home/lfeduca1/edu-search/lf-app/app/converter/; /usr/bin/python3 scrape.py >> /tmp/log.txt 2>&1
 
 ## run locally
 

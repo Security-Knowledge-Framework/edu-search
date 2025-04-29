@@ -270,7 +270,6 @@
   </div>
 </div>
 
-
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.card-jobs');
@@ -287,17 +286,20 @@
         card.classList.add('selected');
         const title = card.querySelector('.card__head-jobs').textContent.trim();
 
-        // Show and scroll to the corresponding detail
+        // Show the corresponding detail
         const matchedDetail = document.querySelector(`.cat-detail[data-cat="${title}"]`);
         if (matchedDetail) {
           matchedDetail.classList.add('active');
-          matchedDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+          // Wait 2 seconds (2000ms), then scroll
+          setTimeout(() => {
+            matchedDetail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }, 2000);
         }
       });
     });
   });
 </script>
-
 
 
 <style>
