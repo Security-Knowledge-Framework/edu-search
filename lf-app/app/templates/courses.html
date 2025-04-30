@@ -13,10 +13,11 @@
     </div>
 
     <!-- RIGHT: Search Field -->
-    <div class="input-group" style="max-width: 300px;">
+    <div class="input-group" style="max-width: 360px;">
       <input type="text" id="searchInput" class="form-control" placeholder="Search courses..." onkeydown="handleSearchKey(event)">
       <div class="input-group-append">
         <button class="btn btn-primary" type="button" onclick="performSearch()">Search</button>
+        <button class="btn btn-secondary" type="button" onclick="clearSearch()">Clear</button>
       </div>
     </div>
   </div>
@@ -134,6 +135,11 @@ function handleSearchKey(event) {
 }
 
 document.addEventListener('DOMContentLoaded', updateCourseCounter);
+
+function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    window.location.reload(); // reloads the page and restores the full course list
+  }
 </script>
 
   
@@ -241,5 +247,15 @@ document.addEventListener('DOMContentLoaded', updateCourseCounter);
   opacity: 1;
 }
 
+.btn-secondary {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}
 </style>
 {% include 'footer.html' %}
