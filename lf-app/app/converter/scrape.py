@@ -1,9 +1,9 @@
 import requests, json, os, uuid
 from bs4 import BeautifulSoup
 
-
 URL = "https://training.linuxfoundation.org/full-catalog/"
 OUTPUT_FILE = "../data/linuxfoundation_courses.json"
+
 # Load existing data (if file exists)
 existing_courses = []
 if os.path.exists(OUTPUT_FILE):
@@ -29,6 +29,7 @@ for card in soup.select("a.lf-owl-card.product-card"):
     difficulty_tag = card.select_one(".lf-owl-card-difficulty i")
     difficulty = difficulty_tag.get("data-difficulty", "").strip() if difficulty_tag else ""
     url = card["href"]
+
     # Inference logic for product type
     product_type = "Training"
     if "/certification/" in url:
@@ -52,32 +53,42 @@ for card in soup.select("a.lf-owl-card.product-card"):
         "category": category.get_text(strip=True) if category else "",
         "difficulty": difficulty,
         "price": price.get_text(strip=True) if price else "",
-        "product_type": product_type,       
+        "product_type": product_type,
         "url": url
     }
 
     current_courses.append(course)
 
-# Build new JSON list:
-# - Add new ones
-# - Keep only existing ones that are still on the page
+# Build new JSON list and track changes
 current_urls = {c["url"] for c in current_courses}
 final_courses = []
-
-added = 0
-removed = 0
+added_urls = []
+removed_urls = []
 
 for course in current_courses:
     if course["url"] not in existing_by_url:
-        added += 1
+        added_urls.append(course["url"])
     final_courses.append(course)
 
 for url in existing_by_url:
     if url not in current_urls:
-        removed += 1  # This one is no longer live
+        removed_urls.append(url)
 
 # Save updated file
 with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
     json.dump(final_courses, f, indent=2)
 
-print(f"✅ Synced course list. Added: {added}, Removed: {removed}, Total: {len(final_courses)}")
+# Output summary
+print(f"✅ Synced course list. Added: {len(added_urls)}, Removed: {len(removed_urls)}, Total: {len(final_courses)}")
+
+# Log added URLs
+if added_urls:
+    print("➕ Added URLs:")
+    for u in added_urls:
+        print(f" - {u}")
+
+# Log removed URLs
+if removed_urls:
+    print("➖ Removed URLs:")
+    for u in removed_urls:
+        print(f" - {u}")
