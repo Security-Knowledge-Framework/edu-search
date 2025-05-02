@@ -50,7 +50,17 @@ def role(name):
     course_map = {course["id"]: course for course in course_data}
 
     # Load learning path per role
-    role_path = load_json("data/role_learning_paths_kernel.json")
+    if "linux" in name.lower():
+        role_path = load_json("data/role_learning_paths_kernel.json")
+    elif "security" in name.lower():
+        role_path = load_json("data/role_learning_paths_cybersecurity.json")
+    elif "kubernetes" in name.lower():
+        role_path = load_json("data/role_learning_paths_kubernetes.json")
+    elif "genai" in name.lower():
+        role_path = load_json("data/role_learning_paths_ai.json")
+    else:
+        role_path = load_json("data/role_learning_paths_kernel.json")
+
 
     # Enrich role_path with full course info
     for level in role_path:
