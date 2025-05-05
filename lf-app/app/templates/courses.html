@@ -286,13 +286,25 @@ function clearSearch() {
   opacity: 0.5;
 }
 
-/* Difficulty Levels: 1 = Beginner, 2 = Intermediate, 3 = Advanced */
-[data-difficulty="1"] span:nth-child(1),
-[data-difficulty="2"] span:nth-child(-n+2),
-[data-difficulty="3"] span {
+/* Difficulty Indicators: 1 = Beginner, 2 = Intermediate, 3 = Advanced */
+[data-difficulty="1"] span:nth-child(1) {
   background-color: #515594;
   opacity: 1;
 }
+
+[data-difficulty="2"] span:nth-child(1),
+[data-difficulty="2"] span:nth-child(2) {
+  background-color: #515594;
+  opacity: 1;
+}
+
+[data-difficulty="3"] span:nth-child(1),
+[data-difficulty="3"] span:nth-child(2),
+[data-difficulty="3"] span:nth-child(3) {
+  background-color: #515594;
+  opacity: 1;
+}
+
 
 .btn-secondary {
   background-color: #6c757d;

@@ -273,12 +273,25 @@
     border-radius: 50%;
     opacity: 0.5;
   }
-  [data-difficulty="1"] span:nth-child(1),
-  [data-difficulty="2"] span:nth-child(-n+2),
-  [data-difficulty="3"] span {
-    background-color: #515594;
-    opacity: 1;
-  }
+/* Difficulty Indicators: 1 = Beginner, 2 = Intermediate, 3 = Advanced */
+[data-difficulty="1"] span:nth-child(1) {
+  background-color: #515594;
+  opacity: 1;
+}
+
+[data-difficulty="2"] span:nth-child(1),
+[data-difficulty="2"] span:nth-child(2) {
+  background-color: #515594;
+  opacity: 1;
+}
+
+[data-difficulty="3"] span:nth-child(1),
+[data-difficulty="3"] span:nth-child(2),
+[data-difficulty="3"] span:nth-child(3) {
+  background-color: #515594;
+  opacity: 1;
+}
+
 </style>
 
 {% include 'footer.html' %}
