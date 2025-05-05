@@ -27,6 +27,8 @@
       Showing <span id="visibleCount">0</span> of <span id="totalCount">0</span> courses
     </div>
 
+
+
     <!-- RIGHT: Search Field -->
     <div class="input-group" style="max-width: 360px;">
       <input type="text" id="searchInput" class="form-control" placeholder="Search courses..." onkeydown="handleSearchKey(event)">
@@ -36,6 +38,14 @@
       </div>
     </div>
   </div>
+  
+    <!-- Sort Dropdown -->
+    <div class="d-flex align-items-center gap-2">
+      <select id="sortSelect" onchange="sortCoursesByPrice()" class="custom-select btn btn-light border">
+        <option value="low-high">Free → Paid</option>
+        <option value="high-low">Paid → Free</option>
+      </select>
+    </div>
 
   <!-- Course Cards Section -->
   <div class="row mt-4" id="courseContainer">
@@ -155,6 +165,28 @@ function clearSearch() {
     document.getElementById('searchInput').value = '';
     window.location.reload(); // reloads the page and restores the full course list
   }
+
+  function sortCoursesByPrice() {
+  const order = document.getElementById("sortSelect").value;
+  const container = document.getElementById("courseContainer");
+  const courses = Array.from(container.querySelectorAll(".course-card"));
+
+  const parsePrice = (priceText) => {
+    if (!priceText || priceText.includes('$0') || priceText.toLowerCase().includes('free')) return 0;
+    const match = priceText.match(/\$([\d.]+)/);
+    return match ? parseFloat(match[1]) : Number.MAX_VALUE;
+  };
+
+  courses.sort((a, b) => {
+    const priceA = parsePrice(a.innerText);
+    const priceB = parsePrice(b.innerText);
+    return order === "low-high" ? priceA - priceB : priceB - priceA;
+  });
+
+  courses.forEach(course => container.appendChild(course));
+  updateCourseCounter();
+}
+
 </script>
 
   
@@ -272,5 +304,19 @@ function clearSearch() {
   background-color: #5a6268;
   border-color: #545b62;
 }
+.custom-select.btn {
+  min-width: 160px;
+  padding: 6px 12px;
+  font-weight: 500;
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+  border-radius: 6px;
+}
+
+.custom-select.btn:hover {
+  background-color: #f8f9fa;
+}
+
 </style>
 {% include 'footer.html' %}
